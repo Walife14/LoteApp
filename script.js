@@ -3,6 +3,8 @@ const collection = document.querySelector('.collection')
 const collectionItem = document.querySelectorAll('.collection-item')
 const noteContainer = document.querySelector('#note-container')
 
+let selectedNoteKey;
+
 // loop through current localStorage
 const loopStorage = () => {
     for(let i = 0; i < localStorage.length; i++ ) {
@@ -54,9 +56,23 @@ const changeDisplayedNote = (key) => {
     // add the text to the p tag and also add the class to it
     p.innerHTML = value
     p.classList.add('card-text')
+
+    // adding the remove option with div with card-action and a new link with 'delete note' text
+
+    const divAction = document.createElement('div')
+    divAction.classList.add('card-action')
+
+    const deleteLink = document.createElement('a')
+    deleteLink.innerHTML = 'Delete note'
+    deleteLink.setAttribute("href", '#!')
+    deleteLink.addEventListener('click', () => removeSelectedNote(key))
+
+    divAction.appendChild(deleteLink)
+
     // append the title and body text to the noteContainer
     noteContainer.appendChild(span)
     noteContainer.appendChild(p)
+    noteContainer.appendChild(divAction)
 }
 
 // add new note
@@ -131,6 +147,19 @@ const formSubmitHandler = (e) => {
     keyInput.value = ''
     valueInput.value = ''
     // update the list to match new localStorage items
+    refreshNotesList()
+}
+
+// removing a specific note
+
+const removeSelectedNote = (key) => {
+    localStorage.removeItem(key)
+    refreshNotesList()
+}
+
+// refresh list of notes
+
+const refreshNotesList = () => {
     collection.innerHTML = ''
     loopStorage()
 }
