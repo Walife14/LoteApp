@@ -1,0 +1,23 @@
+
+
+/* nav section */
+nav {
+    margin-bottom: 20px;
+}
+
+/* form section */
+#form {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+#form input {
+    padding: 0 10px;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.add-new-container {
+    padding: 10px 10px;
+}

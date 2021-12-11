@@ -3,10 +3,7 @@ const collection = document.querySelector('.collection')
 const collectionItem = document.querySelectorAll('.collection-item')
 const noteContainer = document.querySelector('#note-container')
 
-console.log(localStorage)
-
 // loop through current localStorage
-
 const loopStorage = () => {
     for(let i = 0; i < localStorage.length; i++ ) {
         // console.log(localStorage.key(i))
@@ -38,6 +35,7 @@ const loopStorage = () => {
     }
 }
 
+// allows you to add a new note to the noteContainer
 const changeDisplayedNote = (key) => {
     // removing the current note
     noteContainer.innerHTML = ''
@@ -59,6 +57,82 @@ const changeDisplayedNote = (key) => {
     // append the title and body text to the noteContainer
     noteContainer.appendChild(span)
     noteContainer.appendChild(p)
+}
+
+// add new note
+const addNoteBtn = document.querySelector('#add-note')
+const modalContainer = document.querySelector('.modal-container')
+addNoteBtn.addEventListener('click', () => addNewNote())
+
+const addNewNote = () => {
+
+    // create new elements
+    const div1 = document.createElement('div')
+    const div2 = document.createElement('div')
+    const div3 = document.createElement('div')
+    const h4 = document.createElement('h4')
+    const a = document.createElement('a')
+
+    // add classes and ids
+    div1.setAttribute("id", 'modal1')
+    div1.classList.add('modal')
+    div2.classList.add('modal-content')
+    div3.classList.add('modal-footer')
+    h4.innerHTML = 'New Note'
+    a.innerHTML = 'Add'
+    a.classList.add('modal-close')
+    a.classList.add('btn-flat')
+
+    // add elements to each other
+    div3.appendChild(a)
+    div2.appendChild(h4)
+
+    div1.appendChild(div2)
+    div1.appendChild(div3)
+
+    modalContainer.appendChild(div1)
+
+}
+
+// adding functionality to modal
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal')
+    var instances = M.Modal.init(elems)
+});
+
+// scale in add new note
+
+const scale = document.querySelector('#scale')
+const scaleTrigger = document.querySelector('#scale-trigger')
+
+const scaleAddNew = () => {
+    scale.classList.toggle('scale-out')
+    setTimeout(() => {
+        scale.classList.toggle('hide')
+    }, 200)
+}
+
+// adding event listener to the add new note btn
+scaleTrigger.addEventListener('click', scaleAddNew)
+
+// adding new note from form to localStorage
+
+const myForm = document.querySelector('#form')
+const keyInput = document.querySelector('#input-key')
+const valueInput = document.querySelector('#input-value')
+
+myForm.addEventListener('submit', (e) => formSubmitHandler(e))
+
+const formSubmitHandler = (e) => {
+    e.preventDefault()
+    // add the new note to the local storage
+    localStorage.setItem(keyInput.value, valueInput.value)
+    // reset the list of displayed values
+    keyInput.value = ''
+    valueInput.value = ''
+    // update the list to match new localStorage items
+    collection.innerHTML = ''
+    loopStorage()
 }
 
 // run functions
